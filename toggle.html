@@ -1,0 +1,171 @@
+<html>
+<head>
+  <style>
+    .container-final-2 {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+    .main {
+      width: 150px;
+      height: 150px;
+      position: relative;
+      bottom: 30px;
+      right: 30px;
+    }
+
+    .satellite {
+      width: 80px;
+      height: 80px;
+      font-size: 80px;
+      display: none;
+      position: absolute;
+    }
+
+    .selected {
+      color: gold;
+    }
+
+    .icon {
+      height: 100%;
+      width: 100%;
+    }
+    
+    .icon > svg, .main > svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+
+    .controls, .controls select, .content {
+      font-size: 100px;
+    }
+  </style>
+  <script>
+    let selected = 0;
+
+    function main() {
+      return document.getElementById('main');
+    }
+    function isMoving() {
+      return document.getElementById('mode').value == 'move';
+    }
+    function touchMove(e) {
+      if (isMoving()) {
+        main().style.left = e.touches[0].clientX - 50;
+        main().style.top = e.touches[0].clientY - 50;
+        updateSatellitePositions();
+      } else {
+        return;
+      }
+    }
+    function touchStart() {
+      const satellites = document.querySelectorAll('.satellite');
+      for (let i = 0; i < satellites.length; i++) {
+        const element = satellites[i];
+        if (i == selected) {
+          element.classList.add('selected');
+        } else {
+          element.classList.remove('selected');
+        }
+        element.style.display = 'flex';
+      }
+    }
+    function touchEnd() {
+      document.querySelectorAll('.satellite').forEach(element => {
+        element.style.display = 'none';
+      });
+    }
+    function updateSatellitePositions() {
+      const satellites = document.querySelectorAll('.satellite');
+      const primary /* TIL */ = main();
+      const displayStyle = document.querySelector('#style').value;
+      for (let i = 0; i < satellites.length; i++) {
+        if (displayStyle == 'horizontal') {
+          satellites[i].style.top = primary.offsetTop - 100;
+          satellites[i].style.left = primary.offsetLeft - 100 * i;
+        } else {
+          window.alert('unimplemented');
+        }
+      }
+    }
+    function init() {
+      updateSatellitePositions();
+      main().addEventListener('touchmove', touchMove);
+      main().addEventListener('touchstart', touchStart);
+      main().addEventListener('touchend', touchEnd);
+    }
+    window.onload = init;
+  </script>
+</head>
+<body>
+  <div class="controls">
+    <select id="mode">
+      <option value="menu">Menu</option>
+      <option value="move">Move</option>
+    </select>
+    |
+    <select id="style">
+      <option value="horizontal">Horizontal</option>
+      <option value="vertical">Vertical</option>
+      <option value="circular">Circular</option>
+    </select>
+  </div>
+
+  <div class="content">
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+    Content<br/>
+  </div>
+
+  <div class="container-final-2">
+      <div id="main" class="main">
+        <svg viewBox="-10 0 140 80" preserveAspectRatio="xMidYMid meet"><path fill="#FF0000" d="M118.9,13.5c-1.4-5.2-5.5-9.3-10.7-10.7c-9.5-2.5-47.5-2.5-47.5-2.5s-38,0-47.5,2.5C8,4.2,3.9,8.3,2.5,13.5   C0,23,0,42.7,0,42.7s0,19.8,2.5,29.2c1.4,5.2,5.5,9.3,10.7,10.7c9.5,2.5,47.5,2.5,47.5,2.5s38,0,47.5-2.5   c5.2-1.4,9.3-5.5,10.7-10.7c2.5-9.5,2.5-29.2,2.5-29.2S121.4,23,118.9,13.5z"></path><polygon fill="#FFFFFF" points="48.5,61 80.1,42.8 48.5,24.5  "></polygon></svg>
+      </div>
+      <div class="satellite">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>
+        </div>
+      </div>
+      <div class="satellite">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path d="M14.72,17.64c-0.32,0.28-0.83,0.56-1.23,0.69c-1.14,0.38-2.27-0.07-3.05-0.71c-0.11-0.09-0.07-0.26,0.06-0.31  c1.19-0.38,1.89-1.3,2.09-2.22c0.2-0.88-0.16-1.64-0.31-2.51c-0.12-0.72-0.11-1.34,0.12-2c0.04-0.11,0.2-0.13,0.25-0.02  c0.71,1.59,2.72,2.29,3.07,4.04c0.03,0.16,0.05,0.32,0.05,0.48C15.8,16.02,15.4,17.03,14.72,17.64 M17.55,9.62  c-0.75-0.7-1.63-1.2-2.36-1.93c-1.49-1.51-2-3.64-1.34-5.66c0.11-0.33-0.2-0.63-0.51-0.49c-0.71,0.31-1.39,0.76-1.98,1.24  C8.38,5.2,7.27,9.26,8.65,12.92c0.03,0.13,0.08,0.26,0.08,0.39c0,0.26-0.16,0.5-0.39,0.6c-0.26,0.12-0.54,0.04-0.74-0.15  c-0.06-0.06-0.12-0.12-0.17-0.19c-0.96-1.26-1.32-2.95-1.05-4.52c0.07-0.4-0.43-0.62-0.67-0.31c-1.21,1.57-1.81,3.67-1.69,5.65  c0.04,0.59,0.13,1.18,0.29,1.75c0.2,0.71,0.49,1.4,0.88,2.03c1.21,2.01,3.34,3.46,5.63,3.75c2.43,0.31,5.06-0.14,6.94-1.87  c2.09-1.93,2.85-5,1.73-7.68c-0.04-0.11-0.09-0.21-0.14-0.32c-0.25-0.52-0.55-1.01-0.91-1.45C18.17,10.24,17.87,9.92,17.55,9.62z"></path></svg>
+          </div>
+      </div>
+      <div class="satellite">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"></path></svg>
+        </div>
+      </div>
+      <div class="satellite">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
+        </div>
+      </div>
+  </div>
+</body>
+</html>
